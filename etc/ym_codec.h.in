@@ -1,0 +1,29 @@
+#ifndef YM_CODEC_H
+#define YM_CODEC_H
+
+/// @file ym_codec.h
+/// @brief codec 関係の定義を行なうヘッダファイル
+/// @author Yusuke Matsunaga (松永 裕介)
+///
+/// Copyright (C) 2015, 2022 Yusuke Matsunaga
+/// All rights reserved.
+
+#include "ym_config.h"
+
+// CMake でセットされるマクロ
+#cmakedefine ZLIB_FOUND
+#cmakedefine BZIP2_FOUND
+#cmakedefine LIBLZMA_FOUND
+
+// ヘッダファイル
+#if defined(BZIP2_FOUND)
+#include <bzlib.h>
+#endif // defined(BZIP2_FOUND)
+#if defined(ZLIB_FOUND)
+#include <zlib.h>
+#endif // defined(ZLIB_FOUND)
+#if defined(LIBLZMA_FOUND)
+#include <lzma.h>
+#endif // defined(LIBLZMA_FOUND)
+
+#endif // YM_CODEC_H
