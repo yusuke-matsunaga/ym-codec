@@ -10,7 +10,6 @@
 
 #include "ym/CodecEngine.h"
 #include "ym/CodecGen.h"
-#include <lzma.h>
 
 
 BEGIN_NAMESPACE_YM

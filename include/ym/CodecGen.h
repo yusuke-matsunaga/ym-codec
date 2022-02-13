@@ -9,17 +9,7 @@
 /// All rights reserved.
 
 #include "ym_config.h"
-#include "CodecTypeConf.h"
-
-#if defined(BZIP2_FOUND)
-#include <bzlib.h>
-#endif // defined(BZIP2_FOUND)
-#if defined(ZLIB_FOUND)
-#include <zlib.h>
-#endif // defined(ZLIB_FOUND)
-#if defined(LIBLZMA_FOUND)
-#include <lzma.h>
-#endif // defined(LIBLZMA_FOUND)
+#include "ym_codec.h"
 
 
 BEGIN_NAMESPACE_YM

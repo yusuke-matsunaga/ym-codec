@@ -45,10 +45,6 @@ if ( LIBLZMA_FOUND )
   include_directories(${LIBLZMA_INCLUDE_DIRS})
 endif ()
 
-if ( POPT_FOUND )
-  include_directories(${POPT_INCLUDE_DIR})
-endif ()
-
 
 # ===================================================================
 #  マクロの定義
