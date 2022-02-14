@@ -33,18 +33,6 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}/include
   )
 
-if ( ZLIB_FOUND )
-  include_directories(${ZLIBINCLUDE_DIRS})
-endif ()
-
-if ( BZIP2_FOUND )
-  include_directories(${BZIP2_INCLUDE_DIRS})
-endif ()
-
-if ( LIBLZMA_FOUND )
-  include_directories(${LIBLZMA_INCLUDE_DIRS})
-endif ()
-
 
 # ===================================================================
 #  マクロの定義
