@@ -37,7 +37,7 @@ TEST_F(codecgen_test, ZEngineGen)
     // 圧縮エンジン
     unique_ptr<CodecEngine> engine{gen.new_engine(ofs)};
 
-    engine->write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    engine->write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -52,7 +52,7 @@ TEST_F(codecgen_test, ZEngineGen)
     // 伸張エンジン
     unique_ptr<CodecEngine> engine{gen.new_engine(ifs)};
 
-    auto size = engine->read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = engine->read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -78,7 +78,7 @@ TEST_F(codecgen_test, GzEngineGen)
     // 圧縮エンジン
     unique_ptr<CodecEngine> engine{gen.new_engine(ofs)};
 
-    engine->write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    engine->write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -96,7 +96,7 @@ TEST_F(codecgen_test, GzEngineGen)
     // 伸張エンジン
     unique_ptr<CodecEngine> engine{gen.new_engine(ifs)};
 
-    auto size = engine->read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = engine->read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -125,7 +125,7 @@ TEST_F(codecgen_test, BzEngineGen)
     // 圧縮エンジン
     unique_ptr<CodecEngine> engine{gen.new_engine(ofs)};
 
-    engine->write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    engine->write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -146,7 +146,7 @@ TEST_F(codecgen_test, BzEngineGen)
     // 伸張エンジン
     unique_ptr<CodecEngine> engine{gen.new_engine(ifs)};
 
-    auto size = engine->read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = engine->read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -172,7 +172,7 @@ TEST_F(codecgen_test, XzEngineGen)
 
     // 圧縮エンジン
     unique_ptr<CodecEngine> engine{gen.new_engine(ofs)};
-    engine->write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    engine->write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -190,7 +190,7 @@ TEST_F(codecgen_test, XzEngineGen)
     // 伸張エンジン
     unique_ptr<CodecEngine> engine{gen.new_engine(ifs)};
 
-    auto size = engine->read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = engine->read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );

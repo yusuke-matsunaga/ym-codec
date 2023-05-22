@@ -29,7 +29,7 @@ TEST_F(xz_test, inflate)
 
   XzEngine ibuff{ifs};
 
-  auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), BUFF_SIZE);
+  auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), BUFF_SIZE);
 
   EXPECT_EQ( mTestSize, size );
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -47,7 +47,7 @@ TEST_F(xz_test, deflate)
 
     XzEngine obuff{ofs};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
 
   {
@@ -67,7 +67,7 @@ TEST_F(xz_test, big_buffer)
 
     XzEngine obuff{ofs, 4096};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -75,7 +75,7 @@ TEST_F(xz_test, big_buffer)
 
     XzEngine ibuff{ifs, 4096};
 
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -89,7 +89,7 @@ TEST_F(xz_test, small_obuffer)
 
     XzEngine obuff{ofs, 10};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -97,7 +97,7 @@ TEST_F(xz_test, small_obuffer)
 
     XzEngine ibuff{ifs, 4096};
 
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
 
@@ -112,7 +112,7 @@ TEST_F(xz_test, small_ibuffer)
 
     XzEngine obuff{ofs, 4096};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -120,7 +120,7 @@ TEST_F(xz_test, small_ibuffer)
 
     XzEngine ibuff{ifs, 10};
 
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
 

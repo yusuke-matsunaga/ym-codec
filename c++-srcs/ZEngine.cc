@@ -61,7 +61,7 @@ const ZEngine::char_type k_BIT_MASK = 0x1f;
 const ZEngine::char_type k_BLOCK_MASK = 0x80;
 
 // Initial number of bits/code
-const ymuint32 k_INIT_BITS = 9;
+const std::uint32_t k_INIT_BITS = 9;
 
 // Ratio check interval
 const ZEngine::count_int k_CHECK_GAP = 10000;
@@ -73,9 +73,9 @@ const ZEngine::code_int k_FIRST = 257;
 const ZEngine::code_int k_CLEAR = 256;
 
 inline
-ymuint32
+std::uint32_t
 MAXCODE(
-  ymuint32 n_bits
+  std::uint32_t n_bits
 )
 {
   return (1UL << n_bits) - 1;
@@ -141,7 +141,7 @@ ZEngine::~ZEngine()
 // @brief 圧縮されたファイルを読んで最大 num バイトをバッファに格納する．
 SizeType
 ZEngine::read(
-  ymuint8* rbuff,
+  std::uint8_t* rbuff,
   SizeType num
 )
 {
@@ -152,7 +152,7 @@ ZEngine::read(
   }
 
   SizeType count = num;
-  ymuint8* bp = rbuff;
+  std::uint8_t* bp = rbuff;
 
   switch ( m_state ) {
   case START_STATE:
@@ -168,7 +168,7 @@ ZEngine::read(
 
   // 先頭のマジックナンバーと最大ビット数を読む．
   {
-    ymuint8 header[3];
+    std::uint8_t header[3];
     int n = raw_read(header, sizeof(header));
     if ( n != sizeof(header) ||
 	 memcmp(header, k_MAGICHEADER, sizeof(k_MAGICHEADER)) != 0 ) {
@@ -262,7 +262,7 @@ ZEngine::read(
 // @brief 最大 num バイトのデータを圧縮してファイルに書き込む．
 void
 ZEngine::write(
-  const ymuint8* wbuff,
+  const std::uint8_t* wbuff,
   SizeType num
 )
 {
@@ -273,7 +273,7 @@ ZEngine::write(
   }
 
   SizeType count = num;
-  const ymuint8* bp = wbuff;
+  const std::uint8_t* bp = wbuff;
 
   if ( m_state == START_STATE ) {
     m_state = MIDDLE_STATE;
@@ -281,7 +281,7 @@ ZEngine::write(
     m_maxmaxcode = 1ULL << m_maxbits;
     raw_write(k_MAGICHEADER, sizeof(k_MAGICHEADER));
 
-    ymuint8 tmp = static_cast<ymuint8>(m_maxbits) | m_block_compress;
+    std::uint8_t tmp = static_cast<std::uint8_t>(m_maxbits) | m_block_compress;
     raw_write(&tmp, 1);
 
     m_offset = 0;
@@ -309,7 +309,7 @@ ZEngine::write(
 
   for ( code_int i = 0; count -- > 0; ) {
     code_int disp;
-    ymuint8 c = *(bp ++ );
+    std::uint8_t c = *(bp ++ );
     ++ m_in_count;
     code_int fcode = (static_cast<code_int>(c) << m_maxbits) + m_ent;
     i = (c << m_hshift) ^ m_ent;
@@ -541,7 +541,7 @@ ZEngine::output(
 ZEngine::code_int
 ZEngine::getcode()
 {
-  ymuint8* bp = m_gbuf;
+  std::uint8_t* bp = m_gbuf;
   if ( m_clear_flg > 0 || m_roffset >= m_size || m_free_ent > m_maxcode ) {
     if ( m_free_ent > m_maxcode ) {
       ++ m_n_bits;
@@ -568,7 +568,7 @@ ZEngine::getcode()
   auto bits = m_n_bits;
 
   // Get to the first byte.
-  bp += static_cast<ymuint8>(r_off >> 3);
+  bp += static_cast<std::uint8_t>(r_off >> 3);
   r_off &= 7;
 
   // Get first part (low order bits).

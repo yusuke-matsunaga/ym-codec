@@ -39,7 +39,7 @@ public:
     CodecEngine* engine ///< [in] 圧縮/伸張エンジン
   ) : mEngine{engine},
       mBuffSize{4096},
-      mBuff{new ymuint8[mBuffSize]}
+      mBuff{new std::uint8_t[mBuffSize]}
   {
     if ( mEngine->read_mode() ) {
       this->setg(reinterpret_cast<char_type*>(mBuff),
@@ -124,7 +124,7 @@ protected:
   sync()
   {
     if ( mEngine->write_mode() ) {
-      SizeType size = reinterpret_cast<ymuint8*>(this->pptr()) - mBuff;
+      SizeType size = reinterpret_cast<std::uint8_t*>(this->pptr()) - mBuff;
       mEngine->write(mBuff, size);
       this->setp(reinterpret_cast<char_type*>(mBuff),
 		 reinterpret_cast<char_type*>(mBuff + mBuffSize));
@@ -146,7 +146,7 @@ private:
   SizeType mBuffSize;
 
   // バッファ
-  ymuint8* mBuff;
+  std::uint8_t* mBuff;
 
 };
 

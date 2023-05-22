@@ -80,7 +80,7 @@ XzEngine::~XzEngine()
 // @brief データを伸長して読み出す．
 SizeType
 XzEngine::read(
-  ymuint8* buff,
+  std::uint8_t* buff,
   SizeType size
 )
 {
@@ -121,7 +121,7 @@ XzEngine::read(
 // エラーの場合には例外が送出される．
 void
 XzEngine::write(
-  const ymuint8* buff,
+  const std::uint8_t* buff,
   SizeType size
 )
 {
@@ -184,7 +184,7 @@ XzEngine::deflate_common(
 void
 XzEngine::inflate_init(
   SizeType memlimit,
-  ymuint32 flags
+  std::uint32_t flags
 )
 {
   auto ret = lzma_stream_decoder(&mLzmaStream, memlimit, flags);

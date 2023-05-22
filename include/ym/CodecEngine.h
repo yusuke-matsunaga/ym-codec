@@ -60,7 +60,7 @@ public:
   virtual
   SizeType
   read(
-    ymuint8* buff, ///< [in] 読み出したデータを格納するバッファ
+    std::uint8_t* buff, ///< [in] 読み出したデータを格納するバッファ
     SizeType size  ///< [in] 読み出すデータの最大サイズ(<= buff_size)
   ) = 0;
 
@@ -77,7 +77,7 @@ public:
   virtual
   void
   write(
-    const ymuint8* buff, ///< [in] 入力データのバッファ
+    const std::uint8_t* buff, ///< [in] 入力データのバッファ
     SizeType size        ///< [in] データサイズ(<= buff_size)
   ) = 0;
 
@@ -93,14 +93,14 @@ protected:
   /// buff が nullptr の場合は空読みする．
   SizeType
   raw_read(
-    ymuint8* buff, ///< [in] 読み出したデータを格納するバッファ
+    std::uint8_t* buff, ///< [in] 読み出したデータを格納するバッファ
     SizeType size  ///< [in] 読み出すデータの最大サイズ
   );
 
   /// @brief 生のデータを書き込む．
   void
   raw_write(
-    const ymuint8* buff, ///< [in] 入力データのバッファ
+    const std::uint8_t* buff, ///< [in] 入力データのバッファ
     SizeType size        ///< [in] データサイズ(<= buff_size)
   );
 
@@ -111,7 +111,7 @@ protected:
   //////////////////////////////////////////////////////////////////////
 
   /// @brief バッファ中の読み出し位置を返す．
-  ymuint8*
+  std::uint8_t*
   read_ptr() const
   {
     return mBuff + mPos;
@@ -138,7 +138,7 @@ protected:
   }
 
   /// @brief バッファ中の書き込み位置を返す．
-  ymuint8*
+  std::uint8_t*
   write_ptr() const
   {
     return mBuff + mPos;
@@ -206,7 +206,7 @@ private:
   SizeType mBuffSize;
 
   // バッファ
-  ymuint8* mBuff{nullptr};
+  std::uint8_t* mBuff{nullptr};
 
   // 読み込んだデータサイズ
   SizeType mDataSize{0};

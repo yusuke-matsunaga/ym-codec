@@ -268,7 +268,7 @@ public:
   struct Param
   {
     SizeType memlimit{128 * 1024 * 1024}; ///< 割り当てるメモリの上限
-    ymuint32 flags{0};                    ///< 動作制御用のフラグ
+    std::uint32_t flags{0};                    ///< 動作制御用のフラグ
     int preset{6};                        ///< 圧縮レベル ( 0 - 9: 6 がデフォルト )
     lzma_check check{LZMA_CHECK_CRC64};   ///< 検査方法
     lzma_allocator* allocator{nullptr};   ///< アロケータ

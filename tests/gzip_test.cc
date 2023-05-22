@@ -30,7 +30,7 @@ TEST_F(gzip_test, inflate)
 
   GzEngine ibuff{ifs};
 
-  auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), BUFF_SIZE);
+  auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), BUFF_SIZE);
 
   EXPECT_EQ( mTestSize, size );
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -47,7 +47,7 @@ TEST_F(gzip_test, deflate)
 
     GzEngine obuff{ofs};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     string cmd = string{"gunzip "} + gz_filename + ";";
@@ -65,14 +65,14 @@ TEST_F(gzip_test, big_buffer)
     ASSERT_TRUE( ofs.is_open() );
 
     GzEngine obuff{ofs, 4096};
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
     ASSERT_TRUE( ifs.is_open() );
 
     GzEngine ibuff{ifs, 4096};
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -85,7 +85,7 @@ TEST_F(gzip_test, small_obuffer)
     ASSERT_TRUE( ofs.is_open() );
 
     GzEngine obuff{ofs, 10};
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
 
   {
@@ -93,7 +93,7 @@ TEST_F(gzip_test, small_obuffer)
     ASSERT_TRUE( ifs.is_open() );
 
     GzEngine ibuff{ifs, 4096};
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
 
@@ -107,7 +107,7 @@ TEST_F(gzip_test, small_ibuffer)
     ASSERT_TRUE( ofs.is_open() );
 
     GzEngine obuff{ofs, 4096};
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
 
   {
@@ -115,7 +115,7 @@ TEST_F(gzip_test, small_ibuffer)
     ASSERT_TRUE( ifs.is_open() );
 
     GzEngine ibuff{ifs, 10};
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
 

@@ -85,7 +85,7 @@ BzEngine::~BzEngine()
 // エラーの場合には例外が送出される．
 SizeType
 BzEngine::read(
-  ymuint8* buff, ///< [in] 読み出したデータを格納するバッファ
+  std::uint8_t* buff, ///< [in] 読み出したデータを格納するバッファ
   SizeType size  ///< [in] 読み出すデータの最大サイズ
 )
 {
@@ -136,7 +136,7 @@ BzEngine::read(
 // エラーの場合には例外が送出される．
 void
 BzEngine::write(
-  const ymuint8* buff, ///< [in] 入力データのバッファ
+  const std::uint8_t* buff, ///< [in] 入力データのバッファ
   SizeType size        ///< [in] データサイズ
 )
 {

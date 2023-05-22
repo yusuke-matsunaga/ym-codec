@@ -25,7 +25,7 @@ CodecEngine::CodecEngine(
   SizeType buff_size
 ) : mInStream{&is},
     mBuffSize{buff_size},
-    mBuff{new ymuint8[mBuffSize]}
+    mBuff{new std::uint8_t[mBuffSize]}
 {
   read_fill();
 }
@@ -36,7 +36,7 @@ CodecEngine::CodecEngine(
   SizeType buff_size
 ) : mOutStream{&os},
     mBuffSize{buff_size},
-    mBuff{new ymuint8[mBuffSize]}
+    mBuff{new std::uint8_t[mBuffSize]}
 {
 }
 
@@ -52,7 +52,7 @@ CodecEngine::~CodecEngine()
 // @brief 生のブロックデータを読み出す．
 SizeType
 CodecEngine::raw_read(
-  ymuint8* buff, ///< [in] データバッファ
+  std::uint8_t* buff, ///< [in] データバッファ
   SizeType size  ///< [in] 読み出すデータサイズ
 )
 {
@@ -82,7 +82,7 @@ CodecEngine::raw_read(
 // @brief 生のデータを書き込む．
 void
 CodecEngine::raw_write(
-  const ymuint8* buff, ///< [in] データバッファ
+  const std::uint8_t* buff, ///< [in] データバッファ
   SizeType size        ///< [in] データサイズ
 )
 {

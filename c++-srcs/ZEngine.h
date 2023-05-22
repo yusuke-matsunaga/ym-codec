@@ -56,9 +56,9 @@ public:
   // 型の定義
   //////////////////////////////////////////////////////////////////////
 
-  using code_int = ymint64;
-  using count_int = ymint64;
-  using char_type = ymuint8;
+  using code_int = std::int64_t;
+  using count_int = std::int64_t;
+  using char_type = std::uint8_t;
 
 
 public:
@@ -92,7 +92,7 @@ public:
   /// エラーが起こったら例外を送出する．
   SizeType
   read(
-    ymuint8* rbuff, ///< [in] 展開したデータを格納するバッファ
+    std::uint8_t* rbuff, ///< [in] 展開したデータを格納するバッファ
     SizeType size   ///< [in] 読み出すデータ数(バイト)
   ) override;
 
@@ -101,7 +101,7 @@ public:
   /// エラーが起こったら例外を送出する．
   void
   write(
-    const ymuint8* wbuff, ///< [in] 圧縮するデータを格納するバッファ
+    const std::uint8_t* wbuff, ///< [in] 圧縮するデータを格納するバッファ
     SizeType size         ///< [in] 書き込むデータ数(バイト)
   ) override;
 
@@ -205,7 +205,7 @@ private:
   /// @return 実際に読み込んだバイト数を返す．
   int
   _read(
-    ymuint8* buff, ///< [in] データを格納するバッファ
+    std::uint8_t* buff, ///< [in] データを格納するバッファ
     SizeType num   ///< [in] 読み込むバイト数．
   );
 
@@ -230,11 +230,11 @@ private:
 
   // Default bits
   static
-  const ymuint8 k_BITS = 16;
+  const std::uint8_t k_BITS = 16;
 
   // 95 % occupancy
   static
-  const ymuint32 k_HSIZE = 69001;
+  const std::uint32_t k_HSIZE = 69001;
 
   // コードあたりのビット数
   SizeType m_n_bits;

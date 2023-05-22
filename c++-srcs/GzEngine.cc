@@ -43,26 +43,26 @@ GzEngineGen::new_engine(
 BEGIN_NONAMESPACE
 
 // gzip 形式のファイルフォーマットに関する定数定義
-const ymuint8 GZIP_MAGIC0  = 0x1FU;
-const ymuint8 GZIP_MAGIC1  = 0x8BU;
-const ymuint8 GZIP_OMAGIC1 = 0x9EU;
+const std::uint8_t GZIP_MAGIC0  = 0x1FU;
+const std::uint8_t GZIP_MAGIC1  = 0x8BU;
+const std::uint8_t GZIP_OMAGIC1 = 0x9EU;
 
 const off_t GZIP_TIMESTAMP = (off_t)4;
 const off_t GZIP_ORIGNAME  = (off_t)10;
 
-const ymuint8 HEAD_CRC     = 0x02U;
-const ymuint8 EXTRA_FIELD  = 0x04U;
-const ymuint8 ORIG_NAME	   = 0x08U;
-const ymuint8 COMMENT      = 0x10U;
+const std::uint8_t HEAD_CRC     = 0x02U;
+const std::uint8_t EXTRA_FIELD  = 0x04U;
+const std::uint8_t ORIG_NAME	   = 0x08U;
+const std::uint8_t COMMENT      = 0x10U;
 
-const ymuint8 OS_CODE      = 3;	/* Unix */
+const std::uint8_t OS_CODE      = 3;	/* Unix */
 
 // 32ビットの符号なし整数を4バイトのデータに変換する．
 inline
 void
 conv_to_4bytes(
-  ymuint32 data,
-  ymuint8 buff[]
+  std::uint32_t data,
+  std::uint8_t buff[]
 )
 {
   buff[0] = (data >>  0) & 0xFF;
@@ -73,15 +73,15 @@ conv_to_4bytes(
 
 // 4バイトのデータを32ビットの符号なし整数に変換する．
 inline
-ymuint32
+std::uint32_t
 conv_from_4bytes(
-  ymuint8 buff[]
+  std::uint8_t buff[]
 )
 {
-  ymuint32 val0 = static_cast<ymuint32>(buff[0]);
-  ymuint32 val1 = static_cast<ymuint32>(buff[1]);
-  ymuint32 val2 = static_cast<ymuint32>(buff[2]);
-  ymuint32 val3 = static_cast<ymuint32>(buff[3]);
+  std::uint32_t val0 = static_cast<std::uint32_t>(buff[0]);
+  std::uint32_t val1 = static_cast<std::uint32_t>(buff[1]);
+  std::uint32_t val2 = static_cast<std::uint32_t>(buff[2]);
+  std::uint32_t val3 = static_cast<std::uint32_t>(buff[3]);
   return val0 | (val1 << 8) | (val2 << 16) | (val3 << 24);
 }
 
@@ -129,7 +129,7 @@ GzEngine::~GzEngine()
 // @brief データを伸長して読み出す．
 SizeType
 GzEngine::read(
-  ymuint8* buff,
+  std::uint8_t* buff,
   SizeType size
 )
 {
@@ -189,14 +189,14 @@ GzEngine::read(
     // データの末尾を読んだときの処理
 
     // データ末尾の次の4バイトは CRC コード
-    ymuint8 tmp_buff[4];
+    std::uint8_t tmp_buff[4];
     if ( raw_read(tmp_buff, 4) != 4 ) {
       // truncated input
       cerr << "Truncated input(1)" << endl;
       throw GzError{-1, "Truncated input"};
     }
 
-    ymuint32 orig_crc = conv_from_4bytes(tmp_buff);
+    std::uint32_t orig_crc = conv_from_4bytes(tmp_buff);
     if ( orig_crc != mCRC ) {
       cerr << "CRC Error" << endl;
       throw GzError{-1, "CRC Error"};
@@ -222,7 +222,7 @@ GzEngine::read(
 // @brief データを圧縮して書き込む．
 void
 GzEngine::write(
-  const ymuint8* buff,
+  const std::uint8_t* buff,
   SizeType size
 )
 {
@@ -260,7 +260,7 @@ GzEngine::deflate_init(
 
   // ヘッダを書き込む．
   // gzip 形式のファイルヘッダ
-  static ymuint8 header[] = {
+  static std::uint8_t header[] = {
     GZIP_MAGIC0, GZIP_MAGIC1, Z_DEFLATED, 0,
     0, 0, 0, 0,
     0, OS_CODE
@@ -292,7 +292,7 @@ GzEngine::deflate_end()
   }
 
   { // gzip 形式のファイルの末尾データを作る．
-    ymuint8 trail[8];
+    std::uint8_t trail[8];
     conv_to_4bytes(mCRC, &trail[0]);
     conv_to_4bytes(mOutSize, &trail[4]);
     raw_write(trail, sizeof trail);
@@ -337,7 +337,7 @@ GzEngine::inflate_init()
   mOutSize = 0;
 
   // ヘッダを解釈する．
-  ymuint8 header[10];
+  std::uint8_t header[10];
   SizeType hsize = raw_read(header, sizeof(header));
   if ( hsize != sizeof(header) ||
        header[0] != GZIP_MAGIC0 ||
@@ -358,7 +358,7 @@ GzEngine::inflate_init()
   }
 
   // FLG(FLaGs)
-  ymuint8 flags = header[3];
+  std::uint8_t flags = header[3];
 
   // MTIME(Modification TIME)
   // XFL (eXtra FLags)
@@ -367,7 +367,7 @@ GzEngine::inflate_init()
 
   if ( flags & EXTRA_FIELD ) {
     // EXTRA_FIELD がセットされていたら次の2バイトにそのサイズが書いてある．
-    ymuint8 tmp_buff[2];
+    std::uint8_t tmp_buff[2];
     if ( raw_read(tmp_buff, 2) != 2 ) {
       cerr << "wrong EXTRA_FIELD field" << endl;
       throw GzError{-1, "wrong EXTRA_FIELD field."};
@@ -384,7 +384,7 @@ GzEngine::inflate_init()
   if ( flags & ORIG_NAME ) {
     // ORIG_NAME がセットされていたら0終端の文字列が書いてある．
     // ただし内容は読み飛ばす．
-    for ( ymuint8 c = ' '; c != '\0'; ) {
+    for ( std::uint8_t c = ' '; c != '\0'; ) {
       if ( raw_read(&c, 1) != 1 ) {
 	cerr << "wrong ORIG_NAME field" << endl;
 	throw GzError{-1, "wrong ORIG_NAME field."};
@@ -395,7 +395,7 @@ GzEngine::inflate_init()
   if ( flags & COMMENT ) {
     // COMMENT がセットされていたら0終端の文字列が書いてある．
     // ただし内容は読み飛ばす．
-    for ( ymuint8 c = ' '; c != '\0'; ) {
+    for ( std::uint8_t c = ' '; c != '\0'; ) {
       if ( raw_read(&c, 1) != 1 ) {
 	cerr << "wrong COMMENT field" << endl;
 	throw GzError{-1, "wrong COMMENT field."};
@@ -406,7 +406,7 @@ GzEngine::inflate_init()
   if ( flags & HEAD_CRC ) {
     // HEAD_CRC がセットされていたら2バイトのCRCコードが書いてある．
     // でも無視する．
-    ymuint8 tmp_buff[2];
+    std::uint8_t tmp_buff[2];
     if ( raw_read(tmp_buff, 2) != 2 ) {
       cerr << "wrong HEAD_CRC field" << endl;
       throw GzError{-1, "wrong HEAD_CRC field."};

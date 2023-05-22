@@ -30,7 +30,7 @@ TEST_F(compress_test, inflate)
 
   ZEngine ibuff{ifs};
 
-  auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), BUFF_SIZE);
+  auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), BUFF_SIZE);
 
   EXPECT_EQ( mTestSize, size );
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -47,7 +47,7 @@ TEST_F(compress_test, deflate)
 
     ZEngine obuff{ofs};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     string cmd = string{"uncompress "} + mFileName + ";";
@@ -66,7 +66,7 @@ TEST_F(compress_test, big_buffer)
 
     ZEngine obuff{ofs, 4096};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -74,7 +74,7 @@ TEST_F(compress_test, big_buffer)
 
     ZEngine ibuff{ifs, 4096};
 
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -88,7 +88,7 @@ TEST_F(compress_test, small_obuffer)
 
     ZEngine obuff{ofs, 10};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -96,7 +96,7 @@ TEST_F(compress_test, small_obuffer)
 
      ZEngine ibuff{ifs, 4096};
 
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );
@@ -110,7 +110,7 @@ TEST_F(compress_test, small_ibuffer)
 
     ZEngine obuff{ofs, 4096};
 
-    obuff.write(reinterpret_cast<const ymuint8*>(mTestData), mTestSize);
+    obuff.write(reinterpret_cast<const std::uint8_t*>(mTestData), mTestSize);
   }
   {
     ifstream ifs{mFileName};
@@ -118,7 +118,7 @@ TEST_F(compress_test, small_ibuffer)
 
     ZEngine ibuff{ifs, 10};
 
-    auto size = ibuff.read(reinterpret_cast<ymuint8*>(mBuff), mTestSize);
+    auto size = ibuff.read(reinterpret_cast<std::uint8_t*>(mBuff), mTestSize);
     EXPECT_EQ( mTestSize, size );
   }
   EXPECT_EQ( 0, memcmp(mTestData, mBuff, mTestSize) );

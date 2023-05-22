@@ -87,7 +87,7 @@ public:
   /// エラーの場合には例外が送出される．
   SizeType
   read(
-    ymuint8* buff, ///< [in] 読み出したデータを格納するバッファ
+    std::uint8_t* buff, ///< [in] 読み出したデータを格納するバッファ
     SizeType size  ///< [in] 読み出すデータの最大サイズ
   ) override;
 
@@ -96,7 +96,7 @@ public:
   /// エラーの場合には例外が送出される．
   void
   write(
-    const ymuint8* buff, ///< [in] 入力データのバッファ
+    const std::uint8_t* buff, ///< [in] 入力データのバッファ
     SizeType size        ///< [in] データサイズ
   ) override;
 
@@ -133,7 +133,7 @@ private:
   /// @brief 入力バッファを設定する．
   void
   set_inbuf(
-    const ymuint8* buf, ///< [in] バッファ本体
+    const std::uint8_t* buf, ///< [in] バッファ本体
     SizeType size       ///< [in] バッファのサイズ
   )
   {
@@ -144,7 +144,7 @@ private:
   /// @brief out バッファを設定する．
   void
   set_outbuf(
-    ymuint8* buf, ///< [in] バッファ本体
+    std::uint8_t* buf, ///< [in] バッファ本体
     SizeType size ///< [in] バッファのサイズ
   )
   {
@@ -176,7 +176,7 @@ private:
   z_stream mZ;
 
   // CRC コード
-  ymuint32 mCRC;
+  std::uint32_t mCRC;
 
   // 出力されたデータサイズ
   SizeType mOutSize;
